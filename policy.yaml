@@ -1,0 +1,44 @@
+rules:
+  # Critical Actions (Always Review)
+  - tool: "delete_database"
+    risk: "critical"
+    action: "REVIEW"
+  - tool: "deploy_contract"
+    risk: "critical"
+    action: "REVIEW"
+  - tool: "grant_access"
+    risk: "critical"
+    action: "REVIEW"
+
+  # High Risk (Block)
+  - tool: "read_file"
+    condition: "path contains '/etc/shadow'"
+    risk: "high"
+    action: "BLOCK"
+  - tool: "read_file"
+    condition: "path contains '.env'"
+    risk: "high"
+    action: "BLOCK"
+  - tool: "network_scan"
+    condition: "target contains 'fin_server'"
+    risk: "high"
+    action: "BLOCK"
+
+  # Suspicious (Review)
+  - tool: "access_aws_keys"
+    risk: "high"
+    action: "REVIEW"
+  
+  # Safe Actions (Allow)
+  - tool: "read_file"
+    risk: "low"
+    action: "ALLOW"
+  - tool: "network_scan"
+    risk: "medium"
+    action: "ALLOW"
+  - tool: "get_weather"
+    risk: "low"
+    action: "ALLOW"
+  - tool: "translate_text"
+    risk: "low"
+    action: "ALLOW"
