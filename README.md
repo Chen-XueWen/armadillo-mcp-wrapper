@@ -195,6 +195,7 @@ Example tool argument override:
 - `GET /api/stats`
 - `GET /api/access-control`
 - `POST /api/access-control/policies`
+- `DELETE /api/access-control/policies/{policy_id}`
 - `POST /api/access-control/statements`
 - `DELETE /api/access-control/policies/{policy_id}/statements/{statement_id}`
 - `POST /api/access-control/agents/attach-policy`

@@ -372,6 +372,30 @@ class PolicyEngine:
         self._save_policy()
         return policy
 
+    def remove_policy(self, policy_id: str) -> int:
+        self._refresh_if_needed()
+        normalized_policy_id = policy_id.strip()
+        if not normalized_policy_id:
+            raise ValueError("policy_id is required")
+        if normalized_policy_id not in self.access_control.policies:
+            raise ValueError(f"Unknown policy '{normalized_policy_id}'")
+
+        del self.access_control.policies[normalized_policy_id]
+
+        detached_agents = 0
+        for principal in self.access_control.agents.values():
+            if normalized_policy_id not in principal.attached_policies:
+                continue
+            principal.attached_policies = [
+                attached_id
+                for attached_id in principal.attached_policies
+                if attached_id != normalized_policy_id
+            ]
+            detached_agents += 1
+
+        self._save_policy()
+        return detached_agents
+
     def add_statement(
         self,
         policy_id: str,

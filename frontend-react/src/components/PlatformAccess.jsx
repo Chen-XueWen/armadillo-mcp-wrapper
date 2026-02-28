@@ -299,6 +299,23 @@ const PlatformAccess = ({ accessControl, refreshData }) => {
         );
     };
 
+    const deletePolicy = async (policyId) => {
+        if (!policyId) return;
+        const attachedAgents = agents.filter((agent) => (agent.attached_policies || []).includes(policyId));
+        const attachmentMessage = attachedAgents.length > 0
+            ? ` It is currently attached to ${attachedAgents.length} agent(s) and will be detached automatically.`
+            : "";
+        const confirmed = window.confirm(
+            `Delete policy '${policyId}'? This removes all statements in the policy.${attachmentMessage}`
+        );
+        if (!confirmed) return;
+
+        await runMutation(
+            () => api.delete(`${API_BASE}/policies/${encodeURIComponent(policyId)}`),
+            `Deleted policy '${policyId}'.`
+        );
+    };
+
     return (
         <div className="space-y-6">
             <Motion.div
@@ -382,6 +399,40 @@ const PlatformAccess = ({ accessControl, refreshData }) => {
                         >
                             <span className="inline-flex items-center gap-2"><Plus className="w-4 h-4" />Create Policy</span>
                         </button>
+                        <div className="pt-3 border-t border-white/10 space-y-2">
+                            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Existing Policies</p>
+                            <div className="max-h-44 overflow-y-auto space-y-2 pr-1">
+                                {policies.length === 0 && (
+                                    <p className="text-xs text-slate-500">No policies found.</p>
+                                )}
+                                {policies.map((policy) => {
+                                    const attachedCount = agents.filter(
+                                        (agent) => (agent.attached_policies || []).includes(policy.id)
+                                    ).length;
+                                    return (
+                                        <div
+                                            key={policy.id}
+                                            className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-slate-900/40 px-2.5 py-2"
+                                        >
+                                            <div className="min-w-0">
+                                                <p className="text-xs text-slate-200 font-mono truncate">{policy.id}</p>
+                                                <p className="text-[10px] text-slate-500">
+                                                    {policy.statements?.length || 0} stmt • {attachedCount} agent
+                                                </p>
+                                            </div>
+                                            <button
+                                                onClick={() => deletePolicy(policy.id)}
+                                                className="text-slate-400 hover:text-red-300 transition-colors disabled:opacity-50"
+                                                disabled={busy}
+                                                title="Delete policy"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="bg-slate-950/40 border border-white/5 rounded-xl p-4 space-y-3">

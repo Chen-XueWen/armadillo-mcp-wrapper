@@ -125,6 +125,23 @@ async def create_policy(
     }
 
 
+@app.delete("/api/access-control/policies/{policy_id}")
+async def delete_policy(
+    policy_id: str,
+    _: None = Depends(require_admin_api_key),
+) -> Dict[str, object]:
+    try:
+        detached_agents = policy_engine.remove_policy(policy_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+    return {
+        "status": "success",
+        "message": f"Deleted policy {policy_id}",
+        "detached_agents": detached_agents,
+        "access_control": policy_engine.get_access_view(),
+    }
+
+
 @app.post("/api/access-control/statements")
 async def add_statement(
     payload: AddStatementRequest,

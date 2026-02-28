@@ -12,4 +12,4 @@ frontend-react/dist/
 .run/
 
 .DS_Store
-governor.db-wal
+governor.*

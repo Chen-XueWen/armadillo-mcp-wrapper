@@ -202,5 +202,4 @@ access_control:
     - policy-finance
     name: All Agents (Legacy Baseline)
   - id: Finance Agent
-    policies:
-    - Finance_Policy2
+    policies: []
