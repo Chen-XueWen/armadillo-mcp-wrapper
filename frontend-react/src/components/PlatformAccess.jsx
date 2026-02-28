@@ -290,7 +290,7 @@ const PlatformAccess = ({ accessControl, refreshData }) => {
 
     const removeAgent = async (agentId) => {
         if (!agentId || agentId === "*") return;
-        const confirmed = window.confirm(`Remove agent '${agentId}' from Platform Access?`);
+        const confirmed = window.confirm(`Remove agent '${agentId}' from Access Management?`);
         if (!confirmed) return;
 
         await runMutation(

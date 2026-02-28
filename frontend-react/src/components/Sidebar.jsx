@@ -8,7 +8,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { id: 'actions', label: 'Action Center', icon: Zap },
         { id: 'audit', label: 'Audit Log', icon: FileText },
-        { id: 'platform', label: 'Platform Access', icon: Network },
+        { id: 'platform', label: 'Access Management', icon: Network },
     ];
 
     return (

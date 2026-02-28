@@ -69,7 +69,7 @@ function App() {
     dashboard: 'Overview',
     actions: 'Action Center',
     audit: 'System Logs',
-    platform: 'Platform Access',
+    platform: 'Access Management',
   }[activeTab] || 'Overview';
 
   return (
