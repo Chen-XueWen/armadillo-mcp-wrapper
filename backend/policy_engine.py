@@ -247,7 +247,7 @@ class PolicyEngine:
         agents = {
             "*": AgentPrincipal(
                 id="*",
-                name="All Agents (Legacy Baseline)",
+                name="All Agents",
                 attached_policies=attached_policy_ids,
             )
         }

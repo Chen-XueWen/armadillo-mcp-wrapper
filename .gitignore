@@ -13,3 +13,6 @@ frontend-react/dist/
 
 .DS_Store
 governor.*
+governor.db-wal
+governor.db-shm
+governor.db
