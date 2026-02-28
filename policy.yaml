@@ -27,18 +27,6 @@ access_control:
     tool_name: translate_text
     description: null
   policies:
-  - id: Finance_Policy2
-    name: Finance Policy 2
-    statements:
-    - sid: Finance_Policy2-stmt-1
-      effect: ALLOW
-      actions:
-      - invoke
-      resources:
-      - tool:delete_database
-      condition: /etc/finance.db
-      risk_level: low
-      description: null
   - id: legacy-global-allowlist
     name: Legacy Global Allowlist
     statements:
@@ -182,24 +170,13 @@ access_control:
       risk_level: low
       description: null
     description: Converted from legacy REVIEW/BLOCK rules
-  - id: policy-finance
-    name: finance agent
-    statements:
-    - sid: policy-finance-stmt-1
-      effect: ALLOW
-      actions:
-      - invoke
-      resources:
-      - tool:read_file
-      condition: /etc/finance
-      risk_level: low
-      description: null
   agents:
   - id: '*'
     policies:
     - legacy-global-allowlist
     - legacy-global-guardrails
-    - policy-finance
-    name: All Agents (Legacy Baseline)
+    name: All Agents
   - id: Finance Agent
-    policies: []
+    policies:
+    - legacy-global-allowlist
+    - legacy-global-guardrails

@@ -10,7 +10,7 @@ This project now has two clear paths:
 
 - `run_mcp.sh`: production entrypoint for the governance control plane (API + dashboard process management).
 - `backend/mcp_server.py`: production MCP wrapper binary that sits in front of an existing upstream MCP server and enforces policy before forwarding tool calls.
-- `run.sh`: hackathon simulation script (left intact).
+- `run.sh`: hackathon/demo launcher (local simulation + optional frontend-only ngrok sharing).
 
 ## What This Is
 
@@ -216,12 +216,47 @@ The universal governance wrapper is now implemented in this repository.
 
 This means the project already supports the intended flow of wrapping an existing MCP server, enforcing policy, and forwarding approved calls.
 
-## Hackathon Simulation Path (Unchanged)
+## Hackathon Demo Path (`run.sh`)
 
-Hackathon/demo flow remains available and separate:
+`run.sh` is the hackathon/demo launcher. It starts:
+
+- backend API locally (default `:8000`)
+- frontend dev server locally (default `:5173`)
+- optional **frontend-only** ngrok tunnel (enabled by default)
+- optional local simulation runner (enabled by default)
+
+### Quick start
 
 ```bash
 ./run.sh
 ```
 
-`run.sh` and simulation files are intentionally preserved as a demo path and are not required for production wrapper usage.
+If ngrok is installed and authenticated, output includes:
+
+- `Frontend public: https://...`
+
+Share that frontend URL for demo access. Backend and simulation remain local.
+
+### Environment flags
+
+- `GOVERNOR_ENABLE_NGROK` (`1|0`, default `1`)
+- `GOVERNOR_RUN_SIMULATION` (`1|0`, default `1`)
+- `GOVERNOR_BACKEND_PORT` (default `8000`)
+- `GOVERNOR_UI_PORT` (default `5173`)
+- `GOVERNOR_PYTHON_BIN` (default `/opt/anaconda3/envs/deepseek-ocr/bin/python`)
+- `GOVERNOR_UVICORN_BIN` (default `/opt/anaconda3/envs/deepseek-ocr/bin/uvicorn`)
+
+Examples:
+
+```bash
+# Frontend tunnel on, simulation on (default behavior)
+./run.sh
+
+# Local only (no ngrok)
+GOVERNOR_ENABLE_NGROK=0 ./run.sh
+
+# Share frontend, but skip simulation
+GOVERNOR_RUN_SIMULATION=0 ./run.sh
+```
+
+Implementation note: frontend API requests are proxied by Vite to the local backend (`VITE_DEV_PROXY_TARGET`), so only one ngrok tunnel is required for demos.

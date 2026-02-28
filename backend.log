@@ -114,3 +114,246 @@ INFO:     127.0.0.1:51629 - "GET /api/requests HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51628 - "GET /api/stats HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51706 - "GET /api/requests HTTP/1.1" 200 OK
 INFO:     127.0.0.1:51708 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [55389] using StatReload
+INFO:     Started server process [55393]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61555 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [55568] using StatReload
+INFO:     Started server process [55572]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61572 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [56328] using StatReload
+INFO:     Started server process [56332]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61776 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [56817] using StatReload
+INFO:     Started server process [56821]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61891 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [57264] using StatReload
+INFO:     Started server process [57268]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:62006 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62029 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62042 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62044 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62046 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62048 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62050 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62057 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62067 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62100 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62106 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62111 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62117 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62120 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62125 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62132 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62136 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [57268]
+INFO:     Stopping reloader process [57264]
+INFO:     Will watch for changes in these directories: ['/Users/xwtan/Documents/codex_hackathon/armadillo-mcp-wrapper']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [57883] using StatReload
+INFO:     Started server process [57887]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:62232 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62242 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62245 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62247 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62251 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62253 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62258 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62260 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62276 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62284 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62318 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62320 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62325 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62403 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62406 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62416 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62430 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62432 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62434 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62470 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62481 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62483 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62505 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62507 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62509 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62516 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62518 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62521 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62523 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62525 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62527 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62529 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62531 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62533 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62535 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62581 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62592 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62594 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62600 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62674 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62677 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62699 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62701 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62716 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62718 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62720 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62722 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62724 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62735 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62737 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62739 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62741 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62766 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62814 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62824 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62854 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62885 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62887 - "POST /mcp/execute HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:62889 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/stats HTTP/1.1" 200 OK
+INFO:     61.13.221.110:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62949 - "POST /mcp/execute HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/requests HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/access-control HTTP/1.1" 200 OK
+INFO:     122.11.212.253:0 - "GET /api/stats HTTP/1.1" 200 OK
