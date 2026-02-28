@@ -1,7 +1,5 @@
 fastapi
 uvicorn
-streamlit
-pandas
 pydantic
 pyyaml
 requests

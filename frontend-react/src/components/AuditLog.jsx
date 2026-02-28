@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Search, Filter, ArrowRight, FileText, Database, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Search, ArrowRight, Database, Shield } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
 
-const AuditLog = ({ data }) => {
+const AuditLog = ({ requests }) => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const filteredData = data.filter(row =>
+    const filteredData = requests.filter(row =>
         row.tool_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         row.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
         row.args.toLowerCase().includes(searchTerm.toLowerCase())
@@ -30,7 +30,7 @@ const AuditLog = ({ data }) => {
     };
 
     return (
-        <motion.div
+        <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="glass-panel rounded-2xl overflow-hidden flex flex-col h-[calc(100vh-12rem)]"
@@ -90,7 +90,7 @@ const AuditLog = ({ data }) => {
                                 <td className="px-8 py-4">
                                     <div className="flex items-center gap-2">
                                         <span className="font-semibold text-slate-200 text-sm">{row.tool_name}</span>
-                                        {row.risk_level === 'HIGH' && (
+                                        {String(row.risk_level || '').toLowerCase() === 'high' && (
                                             <Shield className="w-3 h-3 text-red-400" />
                                         )}
                                     </div>
@@ -119,7 +119,7 @@ const AuditLog = ({ data }) => {
                     View Entire History <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>
-        </motion.div >
+        </Motion.div >
     );
 };
 

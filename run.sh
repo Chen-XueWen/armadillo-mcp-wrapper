@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Kill any existing processes on port 8000 or streamlit default port 8501
+# Kill any existing backend/frontend processes
 lsof -ti:8000 | xargs kill -9 2>/dev/null
 lsof -ti:5173 | xargs kill -9 2>/dev/null
 

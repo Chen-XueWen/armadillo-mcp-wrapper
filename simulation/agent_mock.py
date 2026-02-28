@@ -1,8 +1,6 @@
 import requests
 import time
-import json
 import random
-import sys
 
 BASE_URL = "http://localhost:8000/mcp/execute"
 

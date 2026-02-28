@@ -1,6 +1,5 @@
-import React from 'react';
-import { LayoutDashboard, Zap, FileText, Shield, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { LayoutDashboard, Zap, FileText, Shield, ChevronRight, Network } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,6 +8,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
         { id: 'actions', label: 'Action Center', icon: Zap },
         { id: 'audit', label: 'Audit Log', icon: FileText },
+        { id: 'platform', label: 'Platform Access', icon: Network },
     ];
 
     return (
@@ -45,7 +45,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                             )}
                         >
                             {isActive && (
-                                <motion.div
+                                <Motion.div
                                     layoutId="activeTabIndicator"
                                     className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent rounded-xl pointer-events-none"
                                     initial={{ opacity: 0 }}

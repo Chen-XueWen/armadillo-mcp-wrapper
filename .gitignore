@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+
+.venv/
+venv/
+
+frontend-react/node_modules/
+frontend-react/dist/
+.run/
+
+.DS_Store

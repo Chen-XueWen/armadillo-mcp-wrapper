@@ -1,4 +1,4 @@
-1. Add a "live" graph (node and edge) to show what are the agents interacting with the Governor-MCP server 
-2. Add a new interface for user to add or remove policy from the MCP server
-3. Allow user to set fine grained policy for each agent
+1. Add a "live" graph (node and edge) to show what are the agents interacting with the Governor-MCP server (optional)
+2. Add a new interface for user to add or remove policy from the MCP server (done)
+3. Allow user to set fine grained policy for each agent (done)
 4. To make the current governance MCP a wrapper for existing MCP server

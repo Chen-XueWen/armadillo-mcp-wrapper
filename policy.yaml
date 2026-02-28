@@ -1,44 +1,206 @@
-rules:
-  # Critical Actions (Always Review)
-  - tool: "delete_database"
-    risk: "critical"
-    action: "REVIEW"
-  - tool: "deploy_contract"
-    risk: "critical"
-    action: "REVIEW"
-  - tool: "grant_access"
-    risk: "critical"
-    action: "REVIEW"
-
-  # High Risk (Block)
-  - tool: "read_file"
-    condition: "path contains '/etc/shadow'"
-    risk: "high"
-    action: "BLOCK"
-  - tool: "read_file"
-    condition: "path contains '.env'"
-    risk: "high"
-    action: "BLOCK"
-  - tool: "network_scan"
-    condition: "target contains 'fin_server'"
-    risk: "high"
-    action: "BLOCK"
-
-  # Suspicious (Review)
-  - tool: "access_aws_keys"
-    risk: "high"
-    action: "REVIEW"
-  
-  # Safe Actions (Allow)
-  - tool: "read_file"
-    risk: "low"
-    action: "ALLOW"
-  - tool: "network_scan"
-    risk: "medium"
-    action: "ALLOW"
-  - tool: "get_weather"
-    risk: "low"
-    action: "ALLOW"
-  - tool: "translate_text"
-    risk: "low"
-    action: "ALLOW"
+access_control:
+  version: 2026-legacy-bootstrap
+  default_effect: DENY
+  functions:
+  - id: tool:access_aws_keys
+    tool_name: access_aws_keys
+    description: null
+  - id: tool:delete_database
+    tool_name: delete_database
+    description: null
+  - id: tool:deploy_contract
+    tool_name: deploy_contract
+    description: null
+  - id: tool:get_weather
+    tool_name: get_weather
+    description: null
+  - id: tool:grant_access
+    tool_name: grant_access
+    description: null
+  - id: tool:network_scan
+    tool_name: network_scan
+    description: null
+  - id: tool:read_file
+    tool_name: read_file
+    description: null
+  - id: tool:translate_text
+    tool_name: translate_text
+    description: null
+  policies:
+  - id: Finance_Policy2
+    name: Finance Policy 2
+    statements:
+    - sid: Finance_Policy2-stmt-1
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:delete_database
+      condition: /etc/finance.db
+      risk_level: low
+      description: null
+  - id: legacy-global-allowlist
+    name: Legacy Global Allowlist
+    statements:
+    - sid: legacy-8-read_file-allow
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:read_file
+      condition: null
+      risk_level: low
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-9-network_scan-allow
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:network_scan
+      condition: null
+      risk_level: medium
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-10-get_weather-allow
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:get_weather
+      condition: null
+      risk_level: low
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-11-translate_text-allow
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:translate_text
+      condition: null
+      risk_level: low
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-global-allowlist-stmt-1
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:access_aws_keys
+      condition: null
+      risk_level: low
+      description: null
+    - sid: legacy-global-allowlist-stmt-2
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:access_aws_keys
+      condition: null
+      risk_level: low
+      description: null
+    - sid: legacy-global-allowlist-stmt-3
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:access_aws_keys
+      condition: null
+      risk_level: low
+      description: null
+    description: Converted from legacy ALLOW rules
+  - id: legacy-global-guardrails
+    name: Legacy Global Guardrails
+    statements:
+    - sid: legacy-1-delete_database-review
+      effect: REVIEW
+      actions:
+      - invoke
+      resources:
+      - tool:delete_database
+      condition: null
+      risk_level: critical
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-2-deploy_contract-review
+      effect: REVIEW
+      actions:
+      - invoke
+      resources:
+      - tool:deploy_contract
+      condition: null
+      risk_level: critical
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-3-grant_access-review
+      effect: REVIEW
+      actions:
+      - invoke
+      resources:
+      - tool:grant_access
+      condition: null
+      risk_level: critical
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-4-read_file-deny
+      effect: DENY
+      actions:
+      - invoke
+      resources:
+      - tool:read_file
+      condition: path contains '/etc/shadow'
+      risk_level: high
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-5-read_file-deny
+      effect: DENY
+      actions:
+      - invoke
+      resources:
+      - tool:read_file
+      condition: path contains '.env'
+      risk_level: high
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-6-network_scan-deny
+      effect: DENY
+      actions:
+      - invoke
+      resources:
+      - tool:network_scan
+      condition: target contains 'fin_server'
+      risk_level: high
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-7-access_aws_keys-review
+      effect: REVIEW
+      actions:
+      - invoke
+      resources:
+      - tool:access_aws_keys
+      condition: null
+      risk_level: high
+      description: Auto-generated from legacy policy.yaml rules
+    - sid: legacy-global-guardrails-stmt-1
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:access_aws_keys
+      condition: null
+      risk_level: low
+      description: null
+    description: Converted from legacy REVIEW/BLOCK rules
+  - id: policy-finance
+    name: finance agent
+    statements:
+    - sid: policy-finance-stmt-1
+      effect: ALLOW
+      actions:
+      - invoke
+      resources:
+      - tool:read_file
+      condition: /etc/finance
+      risk_level: low
+      description: null
+  agents:
+  - id: '*'
+    policies:
+    - legacy-global-allowlist
+    - legacy-global-guardrails
+    - policy-finance
+    name: All Agents (Legacy Baseline)
+  - id: Finance Agent
+    policies:
+    - Finance_Policy2

@@ -1,10 +1,13 @@
-import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Activity, ShieldAlert, Clock, AlertTriangle, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
+import { DEFAULT_RISK_CONFIG } from '../constants/riskConfig';
 
-const StatCard = ({ title, value, icon: Icon, trend, color, delay }) => (
-    <motion.div
+const StatCard = ({ title, value, icon, trend, color, delay }) => {
+    const Icon = icon;
+
+    return (
+    <Motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay }}
@@ -36,14 +39,15 @@ const StatCard = ({ title, value, icon: Icon, trend, color, delay }) => (
                 </div>
             </div>
         </div>
-    </motion.div>
-);
+    </Motion.div>
+    );
+};
 
-const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMultiplier: 2, scaleFactor: 10 } }) => {
+const Dashboard = ({ requests, stats, riskConfig = DEFAULT_RISK_CONFIG }) => {
     // Use stats from backend if available for global counters, otherwise fallback to local data length (for initial load/compat)
-    const total = stats?.total_requests ?? data.length;
-    const pending = stats?.total_pending ?? data.filter(r => r.status === 'PENDING').length;
-    const blocked = stats?.total_blocked ?? data.filter(r => r.status === 'BLOCKED').length;
+    const total = stats?.total_requests ?? requests.length;
+    const pending = stats?.total_pending ?? requests.filter(r => r.status === 'PENDING').length;
+    const blocked = stats?.total_blocked ?? requests.filter(r => r.status === 'BLOCKED').length;
 
     // Risk score calculation
     const riskScore = total > 0
@@ -51,7 +55,7 @@ const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMu
         : 0;
 
     // Process chart data
-    const timeData = data.slice().reverse().map(r => ({
+    const timeData = requests.slice().reverse().map(r => ({
         time: new Date(r.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         count: 1
     }));
@@ -66,7 +70,7 @@ const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMu
         return acc;
     }, []);
 
-    const toolData = Object.entries(data.reduce((acc, curr) => {
+    const toolData = Object.entries(requests.reduce((acc, curr) => {
         acc[curr.tool_name] = (acc[curr.tool_name] || 0) + 1;
         return acc;
     }, {})).map(([name, value]) => ({ name, value }));
@@ -109,7 +113,7 @@ const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMu
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
@@ -142,9 +146,9 @@ const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMu
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
-                </motion.div>
+                </Motion.div>
 
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
@@ -185,7 +189,7 @@ const Dashboard = ({ data, stats, riskConfig = { blockedMultiplier: 5, pendingMu
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </Motion.div>
             </div>
         </div>
     );

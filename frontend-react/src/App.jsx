@@ -1,51 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import ActionCenter from './components/ActionCenter';
 import AuditLog from './components/AuditLog';
+import PlatformAccess from './components/PlatformAccess';
 import ConfigurationModal from './components/ConfigurationModal';
-import axios from 'axios';
-
 import { Trash2, Settings } from 'lucide-react';
+import { api } from './api';
+import { DEFAULT_RISK_CONFIG } from './constants/riskConfig';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [data, setData] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [stats, setStats] = useState({ total_requests: 0, total_pending: 0, total_blocked: 0 });
-  const [loading, setLoading] = useState(true);
+  const [accessControl, setAccessControl] = useState(null);
 
-  // Risk Configuration State
   const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const [riskConfig, setRiskConfig] = useState({
-    blockedMultiplier: 5,
-    pendingMultiplier: 2,
-    scaleFactor: 10
-  });
+  const [riskConfig, setRiskConfig] = useState(DEFAULT_RISK_CONFIG);
 
   const fetchData = async () => {
     try {
-      const [requestsResponse, statsResponse] = await Promise.all([
-        axios.get('http://localhost:8000/api/requests'),
-        axios.get('http://localhost:8000/api/stats')
+      const [requestsResponse, statsResponse, accessControlResponse] = await Promise.all([
+        api.get('/api/requests'),
+        api.get('/api/stats'),
+        api.get('/api/access-control'),
       ]);
-      setData(requestsResponse.data);
+      setRequests(requestsResponse.data);
       setStats(statsResponse.data);
-      setLoading(false);
+      setAccessControl(accessControlResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    const kickoff = setTimeout(() => {
+      fetchData();
+    }, 0);
     const interval = setInterval(fetchData, 2000);
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(kickoff);
+      clearInterval(interval);
+    };
   }, []);
 
   const handleReset = async () => {
     if (window.confirm("Are you sure you want to reset the system? This will delete all request history.")) {
       try {
-        await axios.post('http://localhost:8000/api/reset');
+        await api.post('/api/reset');
         fetchData(); // Refresh immediately
       } catch (error) {
         console.error("Error resetting system:", error);
@@ -55,12 +57,20 @@ function App() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard': return <Dashboard data={data} stats={stats} riskConfig={riskConfig} />;
-      case 'actions': return <ActionCenter data={data} refreshData={fetchData} />;
-      case 'audit': return <AuditLog data={data} />;
-      default: return <Dashboard data={data} stats={stats} riskConfig={riskConfig} />;
+      case 'dashboard': return <Dashboard requests={requests} stats={stats} riskConfig={riskConfig} />;
+      case 'actions': return <ActionCenter requests={requests} refreshData={fetchData} />;
+      case 'audit': return <AuditLog requests={requests} />;
+      case 'platform': return <PlatformAccess accessControl={accessControl} refreshData={fetchData} />;
+      default: return <Dashboard requests={requests} stats={stats} riskConfig={riskConfig} />;
     }
   };
+
+  const headerTitle = {
+    dashboard: 'Overview',
+    actions: 'Action Center',
+    audit: 'System Logs',
+    platform: 'Platform Access',
+  }[activeTab] || 'Overview';
 
   return (
     <div className="flex h-screen w-full text-slate-200 font-sans overflow-hidden relative">
@@ -77,7 +87,7 @@ function App() {
           <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-6 py-6">
             <div>
               <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-                {activeTab === 'dashboard' ? 'Overview' : activeTab === 'actions' ? 'Action Center' : 'System Logs'}
+                {headerTitle}
               </h1>
               <p className="text-sm text-slate-400 mt-1">Real-time governance monitoring</p>
             </div>
@@ -110,12 +120,13 @@ function App() {
           </div>
         </div>
 
-        <ConfigurationModal
-          isOpen={isConfigOpen}
-          onClose={() => setIsConfigOpen(false)}
-          config={riskConfig}
-          onSave={setRiskConfig}
-        />
+        {isConfigOpen && (
+          <ConfigurationModal
+            onClose={() => setIsConfigOpen(false)}
+            config={riskConfig}
+            onSave={setRiskConfig}
+          />
+        )}
       </main>
     </div>
   );

@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { X, Save, RotateCcw, Settings } from 'lucide-react';
+import { DEFAULT_RISK_CONFIG } from '../constants/riskConfig';
 
-const ConfigurationModal = ({ isOpen, onClose, config, onSave }) => {
-    const [localConfig, setLocalConfig] = useState(config);
-
-    // Reset local state when modal opens with new config
-    useEffect(() => {
-        if (isOpen) {
-            setLocalConfig(config);
-        }
-    }, [isOpen, config]);
+const ConfigurationModal = ({ onClose, config, onSave }) => {
+    const [localConfig, setLocalConfig] = useState(() => ({ ...config }));
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,11 +15,7 @@ const ConfigurationModal = ({ isOpen, onClose, config, onSave }) => {
     };
 
     const handleReset = () => {
-        setLocalConfig({
-            blockedMultiplier: 5,
-            pendingMultiplier: 2,
-            scaleFactor: 10
-        });
+        setLocalConfig({ ...DEFAULT_RISK_CONFIG });
     };
 
     const handleSubmit = (e) => {
@@ -34,19 +24,17 @@ const ConfigurationModal = ({ isOpen, onClose, config, onSave }) => {
         onClose();
     };
 
-    if (!isOpen) return null;
-
     return (
         <AnimatePresence>
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={onClose}
                     className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                 />
-                <motion.div
+                <Motion.div
                     initial={{ scale: 0.95, opacity: 0, y: 20 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -142,7 +130,7 @@ const ConfigurationModal = ({ isOpen, onClose, config, onSave }) => {
                             </button>
                         </div>
                     </form>
-                </motion.div>
+                </Motion.div>
             </div>
         </AnimatePresence>
     );

@@ -1,14 +1,25 @@
-import React from 'react';
-import { Copy, Check, X, ShieldAlert, AlertTriangle } from 'lucide-react';
-import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Check, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
+import { api } from '../api';
 
-const ActionCenter = ({ data, refreshData }) => {
-    const pendingRequests = data.filter(r => r.status === 'PENDING');
+const parseRequestArgs = (args) => {
+    if (typeof args !== 'string') {
+        return JSON.stringify(args ?? {}, null, 2);
+    }
+
+    try {
+        return JSON.stringify(JSON.parse(args), null, 2);
+    } catch {
+        return args;
+    }
+};
+
+const ActionCenter = ({ requests, refreshData }) => {
+    const pendingRequests = requests.filter((request) => request.status === 'PENDING');
 
     const handleAction = async (id, action) => {
         try {
-            await axios.post(`http://localhost:8000/api/${action}/${id}`);
+            await api.post(`/api/${action}/${id}`);
             refreshData();
         } catch (error) {
             console.error(`Failed to ${action} request`, error);
@@ -17,7 +28,7 @@ const ActionCenter = ({ data, refreshData }) => {
 
     if (pendingRequests.length === 0) {
         return (
-            <motion.div
+            <Motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex flex-col items-center justify-center min-h-[500px] text-center"
@@ -27,7 +38,7 @@ const ActionCenter = ({ data, refreshData }) => {
                 </div>
                 <h3 className="text-3xl font-bold text-white tracking-tight">All Systems Nominal</h3>
                 <p className="text-slate-400 mt-3 max-w-sm text-lg">There are no pending actions requiring human intervention at this time.</p>
-            </motion.div>
+            </Motion.div>
         );
     }
 
@@ -49,7 +60,7 @@ const ActionCenter = ({ data, refreshData }) => {
 
             <AnimatePresence>
                 {pendingRequests.map((req) => (
-                    <motion.div
+                    <Motion.div
                         key={req.id}
                         layout
                         initial={{ opacity: 0, x: -20 }}
@@ -94,7 +105,7 @@ const ActionCenter = ({ data, refreshData }) => {
                                 <div className="bg-black/30 rounded-xl p-5 mb-8 relative group/code border border-white/5 overflow-hidden">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-20" />
                                     <pre className="text-sm font-mono text-indigo-300 overflow-x-auto">
-                                        {JSON.stringify(JSON.parse(req.args.replaceAll("'", '"')), null, 2)}
+                                        {parseRequestArgs(req.args)}
                                     </pre>
                                     <div className="absolute top-2 right-2 p-2 opacity-50 group-hover/code:opacity-100 transition-opacity">
                                         <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">JSON Payload</span>
@@ -118,7 +129,7 @@ const ActionCenter = ({ data, refreshData }) => {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 ))}
             </AnimatePresence>
         </div>

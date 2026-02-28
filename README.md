@@ -1,151 +1,226 @@
 <p align="center">
-  <img src="./armadillo.png" width=70% alt="Armadillo Governor MCP" />
+  <img src="./armadillo.png" width="70%" alt="Armadillo Governor MCP" />
 </p>
 
+# Armadillo Governor MCP Wrapper
 
-This repository contains a governance-focused **Model Context Protocol (MCP)** server. It acts as a middleware that intercepts tool calls from LLMs and enforces policies (Allow, Block, or Human-in-the-Loop Review) before execution.
+Governance wrapper for Model Context Protocol (MCP) tool execution.
 
-## 🚀 Features
+This project now has two clear paths:
 
-- **Real MCP Server**: Compatible with Claude Desktop, Cursor, and other MCP clients.
-- **Policy Engine**: Evaluates every tool call against a set of rules.
-  - ✅ **ALLOW**: Safe tools (e.g., `read_file` on user dirs, `get_weather`) run immediately.
-  - 🛑 **BLOCK**: Dangerous tools (e.g., reading `/etc/shadow`) are rejected.
-  - ✋ **REVIEW**: Sensitive actions (e.g., `delete_database`, `deploy_contract`) must be approved by a human administrator via the Web UI.
-- **Simulation Mode**: A built-in traffic generator and web dashboard to demonstrate the governance flow.
+- `run_mcp.sh`: production entrypoint for the governance control plane (API + dashboard process management).
+- `backend/mcp_server.py`: production MCP wrapper binary that sits in front of an existing upstream MCP server and enforces policy before forwarding tool calls.
+- `run.sh`: hackathon simulation script (left intact).
 
-## 🏗️ Architecture
+## What This Is
+
+A policy-enforcing MCP proxy that:
+
+1. connects to an upstream MCP server,
+2. mirrors upstream tools to the client,
+3. evaluates each tool call against local policy,
+4. blocks/reviews/allows calls,
+5. forwards allowed calls upstream,
+6. records decisions in the governance audit DB.
+
+## Production Architecture
 
 ```mermaid
 graph TD
-    User([User / Developer]) -->|Prompt| Client["MCP Client\n(Claude / Cursor)"]
-    Client -->|1. Tool Call| Governor["Governor MCP Wrapper\n(Your Firewall)"]
-    
-    subgraph "Governance Layer"
-        direction TB
-        Governor -->|Evaluate| Policy[Policy Engine]
-        Policy -->|Check Rules| DB[("Governance DB")]
-        
-        Policy -- " BLOCK " --> Reject[Reject Request]
-        Policy -- " REVIEW " --> Pending[Log as PENDING]
-        
-        Pending -.-> Poll{Poll Status}
-        Poll -- Denied --> Reject
-        
-        Policy -- " ALLOW " --> Forward["Forward Request"]
-        Poll -- Approved --> Forward
-    end
-    
-    subgraph "Human-in-the-Loop"
-        Admin([Admin / Compliance]) -->|View Dashboard| WebUI[Governor Web UI]
-        WebUI -->|Approve / Deny| DB
-    end
-    
-    subgraph "Target Execution"
-        Forward -->|2. Safe Call| TargetServer["Existing MCP Server\n(e.g. Filesystem, Github, Postgres)"]
-        TargetServer -->|3. Execute| System[External System]
-    end
-    
-    TargetServer -->|4. Result| Governor
-    Governor -->|5. Result| Client
-    Reject -->|Error| Client
+    Client[Claude / Cursor / MCP Client] -->|MCP stdio| Wrapper[backend/mcp_server.py]
+    Wrapper -->|Policy Check| Engine[Policy Engine]
+    Engine -->|Read/Write| Policy[(policy.yaml)]
+    Wrapper -->|Audit| DB[(governor.db)]
+
+    DB --> API[backend/main.py FastAPI]
+    API --> UI[React Dashboard]
+
+    Wrapper -->|Allowed Tool Call| Upstream[Existing MCP Server]
+    Upstream --> Wrapper
+    Wrapper --> Client
 ```
 
-## 📦 Installation
+## Enterprise Readiness Assessment
 
-1. **Clone the repository**:
+### Implemented in this repo now
 
-    ```bash
-    git clone <repository-url>
-    cd governor-mcp
-    ```
+- Real upstream MCP proxy behavior in `backend/mcp_server.py` (no longer only mock local tools).
+- Default-deny IAM-style policy evaluation (`ALLOW`/`DENY`/`REVIEW`).
+- Human-in-the-loop workflow for `REVIEW` decisions with timeout.
+- Audit logging with execution lifecycle states (`PENDING`, `APPROVED`, `COMPLETED`, `FAILED`, etc.).
+- Safer `run_mcp.sh` process lifecycle: `start|stop|restart|status|logs`, PID files, health checks, no blind `kill -9` on ports.
+- Configurable CORS and optional admin API key for mutating governance endpoints.
 
-2. **Create and activate a virtual environment** (recommended):
+### Still recommended before regulated enterprise rollout
 
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
+- External DB (Postgres/MySQL) and migrations instead of SQLite for HA and durability requirements.
+- Strong identity propagation from client to wrapper (today agent identity is provided via configured default or special tool arg).
+- AuthN/AuthZ in front of dashboard/API (OIDC, mTLS, reverse proxy, WAF).
+- Policy change controls (versioning, approvals, immutable audit stream, rollback workflow).
+- Centralized observability (metrics, tracing, SIEM export).
 
-3. **Install dependencies**:
+## Installation
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+1. Clone and enter repository.
 
-## 🔌 Connecting to an MCP Client
+```bash
+git clone <repo-url>
+cd armadillo-mcp-wrapper
+```
 
-You can connect this server to any MCP-compliant client.
+2. Install Python dependencies.
 
-### Claude Desktop Configuration
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
-Add the following to your `claude_desktop_config.json`:
+3. Install frontend dependencies.
+
+```bash
+cd frontend-react
+npm install
+cd ..
+```
+
+## Run Governance Control Plane (`run_mcp.sh`)
+
+`run_mcp.sh` manages backend API and dashboard UI process lifecycle.
+
+```bash
+./run_mcp.sh start
+./run_mcp.sh status
+./run_mcp.sh logs backend
+./run_mcp.sh stop
+```
+
+Default behavior:
+
+- Backend: `http://127.0.0.1:8000`
+- UI (preview mode): `http://127.0.0.1:5173`
+
+Useful environment variables:
+
+- `GOVERNOR_BACKEND_PORT` (default `8000`)
+- `GOVERNOR_BACKEND_WORKERS` (default `1`)
+- `GOVERNOR_UI_MODE` (`preview|dev|none`, default `preview`)
+- `GOVERNOR_UI_PORT` (default `5173`)
+- `GOVERNOR_ADMIN_API_KEY` (optional; secures write endpoints)
+- `GOVERNOR_CORS_ORIGINS` (comma-separated origins)
+
+## Run Wrapper in MCP Clients (`backend/mcp_server.py`)
+
+### Required wrapper configuration
+
+The wrapper must know how to start upstream MCP:
+
+- `UPSTREAM_MCP_COMMAND`
+- optional `UPSTREAM_MCP_ARGS` (JSON list or shell-style string)
+- optional `UPSTREAM_MCP_CWD`
+- optional `UPSTREAM_MCP_ENV_JSON` (JSON object)
+
+### Claude Desktop example
 
 ```json
 {
   "mcpServers": {
-    "governor": {
+    "governor-wrapper": {
       "command": "python",
-      "args": ["/absolute/path/to/governor-mcp/backend/mcp_server.py"]
+      "args": [
+        "/absolute/path/armadillo-mcp-wrapper/backend/mcp_server.py"
+      ],
+      "env": {
+        "UPSTREAM_MCP_COMMAND": "npx",
+        "UPSTREAM_MCP_ARGS": "[\"-y\",\"@modelcontextprotocol/server-filesystem\",\"/Users/you\"]",
+        "GOVERNOR_POLICY_PATH": "/absolute/path/armadillo-mcp-wrapper/policy.yaml",
+        "GOVERNOR_AGENT_ID": "claude-desktop"
+      }
     }
   }
 }
 ```
 
-**Note**: Replace `/absolute/path/to/...` with the full path to this repository on your machine.
+### Cursor example
 
-### Cursor Configuration
+Command:
 
-1. Go to **Cursor Settings** > **MCP**.
-2. Click **Add New MCP Server**.
-3. **Name**: `governor`
-4. **Type**: `stdio`
-5. **Command**: `python /absolute/path/to/governor-mcp/backend/mcp_server.py`
+```bash
+python /absolute/path/armadillo-mcp-wrapper/backend/mcp_server.py
+```
 
-### Running Dashboard + Real MCP
+Environment:
 
-To run the Dashboard (so you can approve requests) while using your own MCP Client:
+- `UPSTREAM_MCP_COMMAND=npx`
+- `UPSTREAM_MCP_ARGS=["-y","@modelcontextprotocol/server-filesystem","/Users/you"]`
+- `GOVERNOR_POLICY_PATH=/absolute/path/armadillo-mcp-wrapper/policy.yaml`
+- `GOVERNOR_AGENT_ID=cursor`
 
-1. **Run the script**:
+## Policy Model (`policy.yaml`)
 
-    ```bash
-    ./run_mcp.sh
-    ```
+The wrapper supports:
 
-    This starts the Backend API and Frontend, but **NOT** the simulation agent.
+- IAM-style `access_control` schema (preferred)
+- legacy `rules` schema (auto-converted)
 
-2. **Connect your Client**:
-    Configure Claude/Cursor to use `backend/mcp_server.py`.
+Decision precedence:
 
-3. **View Dashboard**:
-    Open [http://localhost:5173](http://localhost:5173).
+1. `DENY` wins
+2. then `REVIEW`
+3. then `ALLOW`
+4. otherwise default deny
 
+## Agent Identity
 
-## 🛠️ Available Tools
+For now, agent identity is sourced from:
 
-The server exposes the following tools for testing:
+1. tool argument `__governor_agent_id` (if provided), else
+2. `GOVERNOR_AGENT_ID` env var, else
+3. `Unknown`
 
-| Tool | Policy | Description |
-| :--- | :--- | :--- |
-| `read_file` | **ALLOW** / **BLOCK** | Reads a file. Blocked for system paths (e.g., `/etc/shadow`, `.env`). |
-| `get_weather` | **ALLOW** | Returns mock weather data. |
-| `network_scan` | **ALLOW** / **BLOCK** | Scans a target. Blocked for internal servers. |
-| `delete_database` | **REVIEW** | Requires human approval. (Mock action) |
-| `deploy_contract` | **REVIEW** | Requires human approval. (Mock action) |
-| `grant_access` | **REVIEW** | Requires human approval. (Mock action) |
-| `access_aws_keys` | **REVIEW** | Requires human approval. (Mock action) |
+Example tool argument override:
 
-## 🌟 Envisioned Future Work: The Universal Governor Wrapper
+```json
+{
+  "query": "SELECT 1",
+  "__governor_agent_id": "payments-prod-agent"
+}
+```
 
-The architecture diagram above reflects our long-term vision: **Governor as a Universal Middleware**.
+## Dashboard / API Endpoints
 
-Currently, the Governor MCP server has its own built-in tools. In the future, we envision the Governor acting as a **transparent wrapper** (or proxy) around *any* existing MCP server (e.g., a Filesystem MCP, a GitHub MCP, or a Postgres MCP).
+- `GET /healthz`
+- `GET /readyz`
+- `GET /api/requests`
+- `GET /api/stats`
+- `GET /api/access-control`
+- `POST /api/access-control/policies`
+- `POST /api/access-control/statements`
+- `DELETE /api/access-control/policies/{policy_id}/statements/{statement_id}`
+- `POST /api/access-control/agents/attach-policy`
+- `POST /api/access-control/agents/detach-policy`
+- `POST /api/access-control/agents/remove`
+- `POST /api/approve/{request_id}`
+- `POST /api/deny/{request_id}`
+- `POST /api/reset`
 
-### How it will work
+If `GOVERNOR_ADMIN_API_KEY` is set, write endpoints require header `X-API-Key`.
 
-1. **Wrap**: You start the Governor and point it to a target MCP server (e.g., `npx -y @modelcontextprotocol/server-filesystem`).
-2. **Intercept**: The Governor intercepts all tool calls destined for the target.
-3. **Govern**: It applies your centralized policy rules (Allow/Block/Review).
-4. **Forward**: If allowed/approved, it forwards the call to the target server and returns the result to the client.
+## Universal Wrapper Status (Implemented)
 
-This transforms the Governor into a **Firewall for LLM Tools**, allowing you to "harden" any MCP server without modifying its code.
+The universal governance wrapper is now implemented in this repository.
+
+- Production wrapper binary: `backend/mcp_server.py`
+- Production control-plane launcher: `run_mcp.sh`
+
+This means the project already supports the intended flow of wrapping an existing MCP server, enforcing policy, and forwarding approved calls.
+
+## Hackathon Simulation Path (Unchanged)
+
+Hackathon/demo flow remains available and separate:
+
+```bash
+./run.sh
+```
+
+`run.sh` and simulation files are intentionally preserved as a demo path and are not required for production wrapper usage.
