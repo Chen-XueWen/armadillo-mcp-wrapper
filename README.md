@@ -4,12 +4,12 @@
 
 # Armadillo Governor MCP Wrapper
 
-
 <p align="center">
-  <a href="https://youtu.be/HIsxkYc7b5k">
-    <img src="https://youtu.be/HIsxkYc7b5k/maxresdefault.jpg" width="500">
-  </a><br>
-    <sup><i>Click here to watch the full demo on YouTube.</i></sup>
+  <a href="https://www.youtube.com/watch?v=HIsxkYc7b5k" target="_blank">
+    <img src="https://img.youtube.com/vi/HIsxkYc7b5k/hqdefault.jpg?v=1" width="70%" alt="Armadillo Governor Demo">
+  </a>
+  <br>
+  <sup><i>Click to watch the full demo on YouTube.</i></sup>
 </p>
 
 Governance wrapper for Model Context Protocol (MCP) tool execution.
