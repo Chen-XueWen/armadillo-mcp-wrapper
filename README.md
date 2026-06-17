@@ -4,6 +4,8 @@
 
 # Armadillo Governor MCP Wrapper
 
+[![Watch the video](https://youtu.be/HIsxkYc7b5k)](https://youtu.be/HIsxkYc7b5k)
+
 Governance wrapper for Model Context Protocol (MCP) tool execution.
 
 This project now has two clear paths:
